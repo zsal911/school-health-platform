@@ -42,7 +42,7 @@ const sections=[
 const SUPABASE_URL='https://lfkrzgxmkbeleegvdxwx.supabase.co';
 const SUPABASE_KEY='sb_publishable_IIxp8_3zYzBevJhdjV_Efg_WPM4Cuhc';
 const apiHeaders={'apikey':SUPABASE_KEY,'Content-Type':'application/json'};
-let current='',currentSchoolId=null;const data={};const sel=document.getElementById('schoolSelect');schools.forEach(s=>sel.add(new Option(s[1],s[0])));
+let current='',currentSchoolId=null;const data={};const sel=document.getElementById('schoolSelect');schools.slice().sort((a,b)=>a[1].localeCompare(b[1],'ar')).forEach(s=>sel.add(new Option(s[1],s[0])));
 async function api(path,options={}){const r=await fetch(SUPABASE_URL+'/rest/v1/'+path,{...options,headers:{...apiHeaders,...(options.headers||{})}});if(!r.ok)throw new Error(await r.text());const t=await r.text();return t?JSON.parse(t):null}
 async function loadSchoolData(){data[current]={};const rs=await api('responses?school_id=eq.'+currentSchoolId+'&select=field_key,value');rs.forEach(r=>{const m=r.field_key.match(/^section_(\d+)$/);if(m)data[current][+m[1]]=r.value});const acts=await api('activities?school_id=eq.'+currentSchoolId+'&section_key=eq.other&select=topic,activity_date,target_group,beneficiaries,evidence_url&order=created_at.asc');if(acts.length)data[current][11]={items:acts.map(a=>({topic:a.topic,date:a.activity_date||'',target:a.target_group||'',ben:a.beneficiaries||0,link:a.evidence_url||''}))}}
 
