@@ -85,4 +85,4 @@ const top=[...ids].sort((a,b)=>(latest[b]||'').localeCompare(latest[a]||'')).sli
 const box=document.getElementById('activeSchools');
 if(box)box.innerHTML=top.length?top.map(id=>'<span class="school-feature">'+(nameById[id]||'مدرسة مشاركة')+'</span>').join(''):'<span class="school-feature">لا توجد تحديثات بعد</span>';
 }catch(e){console.warn('stats',e)}}updateStats();
-</script></body></html>
+</script><!-- deploy-refresh-final --></body></html>
